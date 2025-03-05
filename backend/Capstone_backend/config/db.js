@@ -19,4 +19,3 @@ async function initializeDB() {
         throw error;
     }
 }
-module.exports = initializeDB;

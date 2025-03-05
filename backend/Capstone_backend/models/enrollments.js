@@ -9,3 +9,4 @@ db.query(sqlEnrollments, (error) => {
     if (error) throw error;
     console.log("✅ Enrollments table ready");
 });
+

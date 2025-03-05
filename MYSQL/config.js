@@ -4,7 +4,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "cse_management" // Make sure you create this database in phpMyAdmin
+    database: "cse_management" // created this database in phpMyAdmin
 });
 
 // Connect to MySQL

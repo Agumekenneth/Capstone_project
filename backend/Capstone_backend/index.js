@@ -13,7 +13,7 @@ app.listen(PORT,()=>{
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const initializeDB = require('./config/db');
+const db = require('../MYSQL/config');
 
 
 

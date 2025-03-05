@@ -3,8 +3,8 @@ const mysql = require("mysql2");
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Lusinga@2003",
-    database: "CSE_PLATFORM" // Make sure you create this database in phpMyAdmin
+    password: "",
+    database: "cse_management" // created this database in phpMyAdmin
 });
 
 // Connect to MySQL

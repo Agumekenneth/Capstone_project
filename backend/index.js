@@ -14,11 +14,7 @@ app.listen(PORT, ()=>{
 const bcrypt =require('bcrypt');
 const jwt = require('jsonwebtoken')
 
-app.post('/register',async (req, res)=>{
-    const{name,email,password}= req.body;
-
-    if (!email || !password){
-        return res.status(400).json({error:"Your email and password are required to register"});
-    }
-   
-});
+const User=require('./Capstone_backend/models/user')
+const Chapter =require('./Capstone_backend/models/chapters')
+const Enrollments=require('./Capstone_backend/models/enrollments')
+const Activities = require('./Capstone_backend/models/activities')

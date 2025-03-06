@@ -4,7 +4,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "joshua@54",
-    database: "" // created this database in phpMyAdmin
+    database: "capstone" // created this database in phpMyAdmin
 });
 
 // Connect to MySQL

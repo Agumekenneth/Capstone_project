@@ -13,7 +13,12 @@ app.listen(PORT,()=>{
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const db = require('./models/config');
+const db = require('./MYSQL/config');
+
+const User=require('./Capstone_backend/models/user')
+const Chapter =require('./Capstone_backend/models/chapters')
+const Enrollments=require('./Capstone_backend/models/enrollments')
+const Activities = require('./Capstone_backend/models/activities')
 
 
 

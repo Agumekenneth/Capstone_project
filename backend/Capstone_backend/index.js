@@ -15,10 +15,6 @@ const jwt = require('jsonwebtoken');
 
 const db = require('./MYSQL/config');
 
-const User=require('./Capstone_backend/models/user')
-const Chapter =require('./Capstone_backend/models/chapters')
-const Enrollments=require('./Capstone_backend/models/enrollments')
-const Activities = require('./Capstone_backend/models/activities')
 
 
 

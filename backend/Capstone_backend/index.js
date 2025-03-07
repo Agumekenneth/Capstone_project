@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config();
 const db = require('./MYSQL/config');
 const sqlUsers = require('./models/user.js');
-const sqlEnrollments = require('./models/enrollments.js')
+const sqlEnrollments = require('./models/enrollments.js');
+const sqlChapters = require('./models/chapters.js');
+const sqlActivities = require('./models/activities.js');
 
 const app = express();
 const PORT = process.env.PORT || 8080;

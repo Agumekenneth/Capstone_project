@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 const db = require('./MYSQL/config');
-const sqlUsers = require('./models/user.js')
+const sqlUsers = require('./models/user.js');
+const sqlEnrollments = require('./models/enrollments.js')
 
 const app = express();
 const PORT = process.env.PORT || 8080;

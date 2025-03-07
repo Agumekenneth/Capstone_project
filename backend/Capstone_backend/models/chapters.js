@@ -1,4 +1,4 @@
-
+const db= require('../MYSQL/config.js');
 
 const sqlChapters = `CREATE TABLE IF NOT EXISTS chapters (
     id INT AUTO_INCREMENT PRIMARY KEY,

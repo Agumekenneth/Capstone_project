@@ -15,44 +15,6 @@ app.listen(port, (error) => {
 });
 
 
-// Create Chapters table
-const sqlChapters = `CREATE TABLE IF NOT EXISTS chapters (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) UNIQUE NOT NULL,
-    description TEXT
-)`;
-db.query(sqlChapters, (error) => {
-    if (error) throw error;
-    console.log("✅ Chapters table ready");
-});
-
-// Create Enrollments table
-const sqlEnrollments = `CREATE TABLE IF NOT EXISTS enrollments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id INT NOT NULL,
-    chapter_id INT NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES users(id),
-    FOREIGN KEY (chapter_id) REFERENCES chapters(id)
-)`;
-db.query(sqlEnrollments, (error) => {
-    if (error) throw error;
-    console.log("✅ Enrollments table ready");
-});
-
-// Create Activities table
-const sqlActivities = `CREATE TABLE IF NOT EXISTS activities (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    chapter_id INT NOT NULL,
-    title VARCHAR(100) NOT NULL,
-    description TEXT,
-    event_date DATE NOT NULL,
-    FOREIGN KEY (chapter_id) REFERENCES chapters(id)
-)`;
-db.query(sqlActivities, (error) => {
-    if (error) throw error;
-    console.log("✅ Activities table ready");
-});
-
 // ✅ Route to Register a User
 app.post("/register", (req, res) => {
     const { name, email, password, role } = req.body;

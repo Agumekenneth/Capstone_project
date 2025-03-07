@@ -1,5 +1,8 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 require("dotenv").config();
+const db = require('./MYSQL/config');
 const sqlUsers = require('./models/user.js')
 
 const app = express();
@@ -14,7 +17,7 @@ app.get('/',(req,res) =>{
     res.send("Hello from Node API");
 });
 
-app.post('/api/products',(req,res)=>{
+app.post('/api/user',(req,res)=>{
     try{
 
     } catch(error) {
@@ -22,10 +25,9 @@ app.post('/api/products',(req,res)=>{
 
     }
 });
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
-const db = require('./MYSQL/config');
+
+
 
 
 

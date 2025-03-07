@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "cisco123";
 const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME || "3m";
 
 // In-memory user storage (replace with a database in production)
-const users = {};
+const users = {CSE_PLATFORM};
 
 function generateToken(username) {
     return jwt.sign({ sub: username }, JWT_SECRET, { expiresIn: TOKEN_EXPIRE_TIME });

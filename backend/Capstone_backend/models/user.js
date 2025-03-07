@@ -1,3 +1,4 @@
+const db = require('../MYSQL/config.js')
 const sqlUsers = `CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -9,3 +10,5 @@ db.query(sqlUsers, (error) => {
     if (error) throw error;
     console.log("✅ Users table ready");
 });
+
+module.exports=sqlUsers;

@@ -36,6 +36,49 @@ app.get('/',(req,res) =>{
 //     });
 // });
 
+app.post("/register", async (req, res) => {
+    const { name, email, password, role } = req.body;
+
+    // Allowed roles based on your database schema
+    const allowedRoles = ["student", "president", "admin"];
+
+    // Validate input
+    if (!name || !email || !password) {
+        return res.status(400).json({ message: "Name, email, and password are required" });
+    }
+
+    // Check if the role is valid, otherwise default to 'student'
+    const userRole = allowedRoles.includes(role) ? role : "student";
+
+    try {
+        // Hash the password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // SQL query with hashed password
+        const sql = `INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)`;
+        db.query(sql, [name, email, hashedPassword, userRole], (error, results) => {
+            if (error) {
+                if (error.code === 'ER_DUP_ENTRY') {
+                    return res.status(409).json({ message: "Email already registered" });
+                }
+                console.error("Error registering user:", error);
+                return res.status(500).json({ message: "Database error" });
+            }
+
+            res.status(201).json({
+                message: "User registered successfully",
+                userId: results.insertId
+            });
+        });
+    } catch (error) {
+        console.error("Error in registration process:", error);
+        res.status(500).json({ message: "Server error during registration" });
+    }
+});
+
+
+
 
 app.post("/register", async (req, res) => {
     const { name, email, password, role } = req.body;
@@ -80,14 +123,18 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.get('/users', async(req,res)=>{
-    const sql = `SELECT * FROM users`;
-    db.query(sql,(error,results)=>{
+app.get('/users/:id', async(req,res)=>{
+    const sql = `SELECT * FROM users WHERE id=?`;
+    db.query(sql,[req.params.id],(error,results)=>{
         if (error) {
             console.error("Database error:", error);
             return res.status(500).json({message: error.message});
         }
+        if (results.length ===0){
+            return res.status(404).json({message:"User Not found"});
+        }
         res.status(200).json(results);
+        res.json({message:"User found",data: results[0]});
     });
 });
 
@@ -140,8 +187,8 @@ app.post("/enroll", (req, res) => {
 });
 
 
-app.get('/enroll', async(req,res)=>{
-    const sql = `SELECT * FROM enroll`;
+app.get('/enrollments', async(req,res)=>{
+    const sql = `SELECT * FROM enrollments`;
     db.query(sql,(error,results)=>{
         if (error) {
             console.error("Database error:", error);
@@ -154,7 +201,7 @@ app.get('/enroll', async(req,res)=>{
 
 
 
-// ✅ Route to Add a Chapter Activity
+// post Route to Add a Chapter Activity
 app.post("/add-activity", (req, res) => {
     const { chapter_id, title, description, event_date } = req.body;
 

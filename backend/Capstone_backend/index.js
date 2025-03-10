@@ -189,26 +189,6 @@ app.put('users/:id', async(req,res)=>{
     }
 });
 
-// ✅ Route to Delete a User
-app.delete("/delete-user/:id", (req, res) => {
-    const userId = req.params.id;
-    const sql = `DELETE FROM users WHERE id = ?`;
-    db.query(sql, [userId], (error, results) => {
-        if (error) {
-            console.error("Error deleting user:", error);
-            res.status(500).json({ message: "Database error" });
-        } else if (results.affectedRows === 0) {
-            res.status(404).json({ message: "User not found" });
-        } else {
-            res.status(200).json({ message: "User deleted successfully" });
-        }
-    });
-});
-
-
-
-
-
 // POST /enroll route
 app.post("/enroll", (req, res) => {
     const { student_id, chapter_id } = req.body;
@@ -339,5 +319,21 @@ app.get("/chapters", (req, res) => {
             return res.status(500).json({ message: error.message });
         }
         res.status(200).json(results);
+    });
+});
+
+// ✅ Route to Delete a User
+app.delete("/delete-user/:id", (req, res) => {
+    const userId = req.params.id;
+    const sql = `DELETE FROM users WHERE id = ?`;
+    db.query(sql, [userId], (error, results) => {
+        if (error) {
+            console.error("Error deleting user:", error);
+            res.status(500).json({ message: "Database error" });
+        } else if (results.affectedRows === 0) {
+            res.status(404).json({ message: "User not found" });
+        } else {
+            res.status(200).json({ message: "User deleted successfully" });
+        }
     });
 });

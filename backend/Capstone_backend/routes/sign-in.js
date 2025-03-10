@@ -6,7 +6,7 @@ const User = require('./models/User'); // Assuming you have a User model defined
 const router = express.Router();
 
 // Sign-up route
-router.post('/signup', async (req, res) => {
+router.post('/signin', async (req, res) => {
     const { username, password } = req.body;
 
     // Check if the user already exists

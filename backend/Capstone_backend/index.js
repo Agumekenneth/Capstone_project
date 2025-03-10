@@ -144,7 +144,7 @@ app.get('/users', async(req,res)=>{
     });
 });
 
-app.get('/users/id', (req,res) =>{
+app.get('/users/:id', (req,res) =>{
     const sql = `SELECT * FROM users WHERE id=?`;
     db.query(sql,[req.params.id], (error,results) =>{
         if (error) {
@@ -172,7 +172,7 @@ app.get('/users/email', (req,res) =>{
     });
 });
 
-app.put('users/id', async(req,res)=>{
+app.put('users/:id', async(req,res)=>{
     try{
         const {id} = req.params;
         const user = await users.findByIdAndUpdate(id, req.body);

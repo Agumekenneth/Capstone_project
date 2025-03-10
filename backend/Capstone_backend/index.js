@@ -172,22 +172,6 @@ app.get('/users/email', (req,res) =>{
     });
 });
 
-app.put('users/:id', async(req,res)=>{
-    try{
-        const {id} = req.params;
-        const user = await users.findByIdAndUpdate(id, req.body);
-
-        if(!user) {
-            return res.status(404).json({message: "User not found"});
-        }
-
-        const updatedUser = await users.findById(id);
-        res.status(200).json(updatedUser);
-
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-});
 
 // POST /enroll route
 app.post("/enroll", (req, res) => {

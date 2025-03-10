@@ -144,7 +144,7 @@ app.get('/users', async(req,res)=>{
     });
 });
 
-app.get('/users/id', (req,res) =>{
+app.get('/users/:id', (req,res) =>{
     const sql = `SELECT * FROM users WHERE id=?`;
     db.query(sql,[req.params.id], (error,results) =>{
         if (error) {

@@ -123,8 +123,8 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.get('/users/:id', async(req,res)=>{
-    const sql = `SELECT * FROM users WHERE id=?`;
+app.get('/users', async(req,res)=>{
+    const sql = `SELECT * FROM users`;
     db.query(sql,[req.params.id],(error,results)=>{
         if (error) {
             console.error("Database error:", error);
@@ -140,6 +140,20 @@ app.get('/users/:id', async(req,res)=>{
 
 app.get('/users/id', (req,res) =>{
     const sql = `SELECT * FROM users WHERE id=?`;
+    db.query(sql,[req.params.id], (error,results) =>{
+        if (error) {
+            console.error("Database error:", error);
+            return res.status(500).json({message: "database error"});
+        }
+        if (results.length === 0) {
+            return res.status(404).json({message: "User not found"});
+        }
+        res.json({message: "User found", data:results[0]});
+    });
+});
+
+app.get('/users/email', (req,res) =>{
+    const sql = `SELECT * FROM users WHERE email=?`;
     db.query(sql,[req.params.id], (error,results) =>{
         if (error) {
             console.error("Database error:", error);
@@ -232,6 +246,53 @@ app.post("/add-activity", (req, res) => {
 // ✅ Route to Get All Activities
 app.get("/activities", (req, res) => {
     const sql = `SELECT * FROM activities`;
+    db.query(sql, (error, results) => {
+        if (error) {
+            console.error("Database error:", error);
+            return res.status(500).json({ message: error.message });
+        }
+        res.status(200).json(results);
+    });
+});
+
+
+// POST route to create a new chapter
+app.post('/chapters', (req, res) => {
+    const { name, description } = req.body;
+
+    // Validate input
+    if (!name) {
+        return res.status(400).json({ error: 'Chapter name is required' });
+    }
+
+    // SQL query to insert a new chapter
+    const sql = 'INSERT INTO chapters (name, description) VALUES (?, ?)';
+    const values = [name, description || null]; // Use null if description is not provided
+
+    db.query(sql, values, (error, result) => {
+        if (error) {
+            // Handle duplicate name error (MySQL error code 1062 for unique constraint violation)
+            if (error.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ error: `Chapter '${name}' already exists` });
+            }
+            console.error('Error inserting chapter:', error);
+            return res.status(500).json({ error: 'Failed to create chapter' });
+        }
+
+        // Success response with the newly created chapter's ID
+        res.status(201).json({
+            message: 'Chapter created successfully',
+            chapter: {
+                id: result.insertId,
+                name,
+                description: description || null
+            }
+        });
+    });
+});
+
+app.get("/chapters", (req, res) => {
+    const sql = `SELECT * FROM chapters`;
     db.query(sql, (error, results) => {
         if (error) {
             console.error("Database error:", error);

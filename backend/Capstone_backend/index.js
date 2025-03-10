@@ -83,10 +83,16 @@ app.post("/register", async (req, res) => {
 app.post("/register", async (req, res) => {
     const { name, email, password, role } = req.body;
 
+    const allowedRoles = ["student", "president", "admin"];
+    
+
     // Input validation
     if (!name || !email || !password) {
         return res.status(400).json({ message: "Name, email, and password are required" });
+        
     }
+
+    const userRole = allowedRoles.includes(role) ? role : "student";
 
     // Validate email format (basic regex)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -164,6 +170,23 @@ app.get('/users/email', (req,res) =>{
         }
         res.json({message: "User found", data:results[0]});
     });
+});
+
+app.put('users/:id', async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const user = await users.findByIdAndUpdate(id, req.body);
+
+        if(!user) {
+            return res.status(404).json({message: "User not found"});
+        }
+
+        const updatedUser = await users.findById(id);
+        res.status(200).json(updatedUser);
+
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
 });
 
 

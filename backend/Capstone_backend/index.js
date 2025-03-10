@@ -172,69 +172,6 @@ app.get('/users/email', (req,res) =>{
     });
 });
 
-// app.put('users/:id', async(req,res)=>{
-//     try{
-//         const {id} = req.params;
-//         const user = await users.findByIdAndUpdate(id, req.body);
-
-//         if(!user) {
-//             return res.status(404).json({message: "User not found"});
-//         }
-
-//         const updatedUser = await users.findById(id);
-//         res.status(200).json(updatedUser);
-
-//     } catch (error) {
-//         res.status(500).json({message: error.message});
-//     }
-// });
-
-
-app.patch('/users/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, email, password, role } = req.body;
-
-    // Build dynamic SQL based on provided fields
-    const updates = [];
-    const values = [];
-    if (name !== undefined) {
-        updates.push('name = ?');
-        values.push(name);
-    }
-    if (email !== undefined) {
-        updates.push('email = ?');
-        values.push(email);
-    }
-    if (password !== undefined) {
-        updates.push('password= ?');
-        values.push(password);
-    }
-    if (role !== undefined) {
-        updates.push('role= ?');
-        values.push(role);
-    }
-
-    if (updates.length === 0) {
-        return res.status(400).json({ message: 'No fields provided to update' });
-    }
-
-    values.push(id); // Add ID for WHERE clause
-    const sql = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
-
-    db.query(sql, values, (error, result) => {
-        if (error) {
-            console.error('Error updating user:', error);
-            return res.status(500).json({ message: error.message });
-        }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        db.query('SELECT * FROM users WHERE id = ?', [id], (err, rows) => {
-            if (err) return res.status(500).json({ message: err.message });
-            res.status(200).json(rows[0]);
-        });
-    });
-});
 
 // POST /enroll route
 app.post("/enroll", (req, res) => {

@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-const JWT_SECRET = process.env.JWT_SECRET || "cisco123";
+const JWT_SECRET = process.env.JWT_SECRET;
 const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME || "3m";
 
 // In-memory user storage (replace with a database in production)

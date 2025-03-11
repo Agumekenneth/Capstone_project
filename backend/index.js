@@ -18,6 +18,7 @@ const userRoutes= require('./routes/userRoute.js');
 const enrollRoutes = require('./routes/enrollRoute.js');
 const chapterRoutes = require('./routes/chapterRoute.js');
 const activityRoutes = require('./routes/activityRoute.js');
+const signinRoutes = require('./routes/sign-in.js');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -33,6 +34,9 @@ app.use("/api", chapterRoutes);
 
 //Use activity route
 app.use("/api", activityRoutes);
+
+//Use signin route
+app.use("/api",signinRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Our app is running on port ${PORT}`);

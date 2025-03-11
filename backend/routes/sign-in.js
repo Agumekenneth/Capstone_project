@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const User = require('../models/user'); // Assuming you have a User model defined
 const router = express.Router();
-
+const db = require('../MYSQL/config.js');
 require("dotenv").config();
 
 router.post("/signin", (req, res) => {

@@ -1,6 +1,10 @@
-const db = require('./MYSQL/config');
+const express = require("express");
+const db = require('../MYSQL/config.js');
+
+const router = express.Router();
+
 // POST /enroll route
-app.post("/enroll", (req, res) => {
+router.post("/enroll", (req, res) => {
     const { student_id, chapter_id } = req.body;
 
     console.log("Request body:", req.body); // Debug incoming data
@@ -31,7 +35,7 @@ app.post("/enroll", (req, res) => {
 });
 
 
-app.get('/enrollments', async(req,res)=>{
+router.get('/enrollments', async(req,res)=>{
     const sql = `SELECT * FROM enrollments`;
     db.query(sql,(error,results)=>{
         if (error) {
@@ -41,4 +45,6 @@ app.get('/enrollments', async(req,res)=>{
         res.status(200).json(results);
     });
 });
+
+module.exports = router;
 

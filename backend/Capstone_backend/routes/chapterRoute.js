@@ -1,7 +1,10 @@
+const express = require("express");
 const db= require('../MYSQL/config.js');
 
+const router = express.Router();
+
 // POST route to create a new chapter
-app.post('/chapters', (req, res) => {
+router.post('/chapters', (req, res) => {
     const { name, description } = req.body;
 
     // Validate input
@@ -35,7 +38,7 @@ app.post('/chapters', (req, res) => {
     });
 });
 
-app.get("/chapters", (req, res) => {
+router.get("/chapters", (req, res) => {
     const sql = `SELECT * FROM chapters`;
     db.query(sql, (error, results) => {
         if (error) {
@@ -45,3 +48,5 @@ app.get("/chapters", (req, res) => {
         res.status(200).json(results);
     });
 });
+
+module.exports = router;

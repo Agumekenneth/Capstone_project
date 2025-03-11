@@ -1,6 +1,10 @@
+const express = require("express");
+const bcrypt = require("bcrypt");
 const db= require('../MYSQL/config.js');
 
-app.post("/register", async (req, res) => {
+const router = express.Router();
+
+router.post("/register", async (req, res) => {
     const { name, email, password, role } = req.body;
 
     const allowedRoles = ["student", "president", "admin"];
@@ -49,7 +53,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.get('/users', async(req,res)=>{
+router.get('/users', async(req,res)=>{
     const sql = `SELECT * FROM users`;
     db.query(sql,[req.params.id],(error,results)=>{
         if (error) {
@@ -64,7 +68,7 @@ app.get('/users', async(req,res)=>{
     });
 });
 
-app.get('/users/:id', (req,res) =>{
+router.get('/users/:id', (req,res) =>{
     const sql = `SELECT * FROM users WHERE id=?`;
     db.query(sql,[req.params.id], (error,results) =>{
         if (error) {
@@ -78,7 +82,7 @@ app.get('/users/:id', (req,res) =>{
     });
 });
 
-app.get('/users/email', (req,res) =>{
+router.get('/users/:email', (req,res) =>{
     const sql = `SELECT * FROM users WHERE email=?`;
     db.query(sql,[req.params.id], (error,results) =>{
         if (error) {
@@ -91,3 +95,21 @@ app.get('/users/email', (req,res) =>{
         res.json({message: "User found", data:results[0]});
     });
 });
+
+// ✅ Route to Delete a User
+router.delete("/delete-user/:id", (req, res) => {
+    const userId = req.params.id;
+    const sql = `DELETE FROM users WHERE id = ?`;
+    db.query(sql, [userId], (error, results) => {
+        if (error) {
+            console.error("Error deleting user:", error);
+            res.status(500).json({ message: "Database error" });
+        } else if (results.affectedRows === 0) {
+            res.status(404).json({ message: "User not found" });
+        } else {
+            res.status(200).json({ message: "User deleted successfully" });
+        }
+    });
+});
+
+module.exports = router;

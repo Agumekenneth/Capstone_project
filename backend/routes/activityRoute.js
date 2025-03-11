@@ -1,7 +1,9 @@
+const express= require('express');
 const db= require('../MYSQL/config.js');
 
+const router = express.Router();
 // post Route to Add a Chapter Activity
-app.post("/add-activity", (req, res) => {
+router.post("/add-activity", (req, res) => {
     const { chapter_id, title, description, event_date } = req.body;
 
     console.log("Request body:", req.body); // Debug incoming data
@@ -29,7 +31,7 @@ app.post("/add-activity", (req, res) => {
 });
 
 // ✅ Route to Get All Activities
-app.get("/activities", (req, res) => {
+router.get("/activities", (req, res) => {
     const sql = `SELECT * FROM activities`;
     db.query(sql, (error, results) => {
         if (error) {
@@ -39,3 +41,5 @@ app.get("/activities", (req, res) => {
         res.status(200).json(results);
     });
 });
+
+module.exports = router;

@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config();
 const db = require('./MYSQL/config');
 
-
 const sqlUsers = require('./models/user.js');
 const sqlEnrollments = require('./models/enrollments.js');
 const sqlChapters = require('./models/chapters.js');
@@ -16,6 +15,8 @@ const PORT = process.env.PORT || 8080;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRoutes= require('./routes/userRoute.js');
+const enrollRoutes = require('./routes/enrollRoute.js');
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,6 +24,8 @@ app.use(bodyParser.json());
 //Use the user routes
 app.use("/api", userRoutes);
 
+//Use Enrollment Routes
+app.use("/api", enrollRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Our app is running on port ${PORT}`);

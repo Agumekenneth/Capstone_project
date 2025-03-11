@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
-    "start":"nodemon index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,9 +20,12 @@
   "homepage": "https://github.com/Agumekenneth/Capstone_project#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
+    "mysql2": "^3.13.0",
     "nodemon": "^3.1.9"
   }
 }

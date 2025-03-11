@@ -16,7 +16,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRoutes= require('./routes/userRoute.js');
 const enrollRoutes = require('./routes/enrollRoute.js');
-
+const chapterRoutes = require('./routes/chapterRoute.js');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,6 +26,8 @@ app.use("/api", userRoutes);
 
 //Use Enrollment Routes
 app.use("/api", enrollRoutes);
+
+app.use("/api", chapterRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Our app is running on port ${PORT}`);

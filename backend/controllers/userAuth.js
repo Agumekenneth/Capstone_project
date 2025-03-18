@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true })); // ✅ This helps with form data
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "cisco123";
 const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME || "3m";
@@ -37,14 +39,21 @@ app.post("/register", async (req, res) => {
 
 // 🛠️ User Login and Token Generation
 app.post("/token", async (req, res) => {
-    const { username, password } = req.body;
-    const user = users[username];
+    console.log("Received login request:", req.body); // ✅ Debugging line
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ detail: "Invalid credentials" });
+    const { email, password } = req.body; // ✅ Expecting email, not username
+
+    if (!email || !password) {
+        return res.status(400).json({ detail: "Email and password are required" });
     }
 
-    const accessToken = generateToken(username, user.role);
+    const user = Object.values(users).find(u => u.email === email); // ✅ Find user by email
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ detail: "Invalid email or password" });
+    }
+
+    const accessToken = generateToken(user.email, user.role);
     res.json({ access_token: accessToken, token_type: "bearer" });
 });
 

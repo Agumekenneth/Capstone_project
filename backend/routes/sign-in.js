@@ -8,12 +8,20 @@ const router = express.Router();
 const db = require('../MYSQL/config.js');
 require("dotenv").config();
 
+const ADMIN_SECRET = process.env.ADMIN_SECRET
+
 router.post("/signin", (req, res) => {
-    const { email, password } = req.body;
+    const { email, password,role,ADMIN_SECRET } = req.body;
     
 
-    if (!email || !password) {
+    if (!email || !password || !role) {
         return res.status(400).json({ message: "Email and password are required" });
+    }
+    // Check if role is admin and verify admin secret
+    if (role ==="admin"){
+        if (!ADMIN_SECRET || admin_secret !== ADMIN_SECRET){
+            return res.status(403).json({error:"Invalid admin secret key"});
+        }
     }
 
     // Check if the user exists in MySQL database

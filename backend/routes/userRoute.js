@@ -78,7 +78,8 @@ router.get('/users/:id', (req,res) =>{
         if (results.length === 0) {
             return res.status(404).json({message: "User not found"});
         }
-        res.json({message: "User found", data:results[0]});
+        console.log("User data from database:", results[0]);
+        res.json(results[0]);
     });
 });
 
